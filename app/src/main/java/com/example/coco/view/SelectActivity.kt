@@ -4,9 +4,9 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.coco.MainActivity
-import com.example.coco.R
 import com.example.coco.databinding.ActivitySelectBinding
 import com.example.coco.view.adapter.SelectRVAdapter
 import timber.log.Timber
@@ -28,7 +28,7 @@ class SelectActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         viewModel.getCurrentCoinList()
-        viewModel.currentPriceResult.observe(this, {
+        viewModel.currentPriceResult.observe(this, Observer{
 
             selectRVAdapter = SelectRVAdapter(this, it)
 
@@ -37,6 +37,8 @@ class SelectActivity : AppCompatActivity() {
 
             Timber.d(it.toString())
         })
+
+        viewModel.setUpFirstFlat()
 
         binding.laterTextArea.setOnClickListener{
             val intent = Intent(this, MainActivity::class.java)
