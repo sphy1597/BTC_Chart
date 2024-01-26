@@ -1,12 +1,10 @@
 package com.example.coco.view
 
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.coco.MainActivity
 import com.example.coco.databinding.ActivitySelectBinding
 import com.example.coco.view.adapter.SelectRVAdapter
 import timber.log.Timber
@@ -38,11 +36,14 @@ class SelectActivity : AppCompatActivity() {
             Timber.d(it.toString())
         })
 
-        viewModel.setUpFirstFlat()
 
         binding.laterTextArea.setOnClickListener{
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
+            // 임시로 확인하기 위함 나중에 밖으로 빼야됨
+            viewModel.setUpFirstFlat()
+            viewModel.saveSelectedCoinList(selectRVAdapter.selectedCoinList)
+
+//            val intent = Intent(this, MainActivity::class.java)
+//            startActivity(intent)
         }
 
     }

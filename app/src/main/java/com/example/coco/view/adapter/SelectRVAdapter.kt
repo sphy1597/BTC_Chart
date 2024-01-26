@@ -18,7 +18,7 @@ class SelectRVAdapter(val context: Context, val coinPriceList: List<CurrentPrice
     : RecyclerView.Adapter<SelectRVAdapter.ViewHolder>(){
 
     // 하트가 눌린 코인들 리스트 보관 >> 다시 뺴기 위해서
-    private val selectedCoinList = ArrayList<String>()
+    val selectedCoinList = ArrayList<String>()
 
     inner class ViewHolder(view : View) : RecyclerView.ViewHolder(view){
         val coinName : TextView = view.findViewById(R.id.coinName)

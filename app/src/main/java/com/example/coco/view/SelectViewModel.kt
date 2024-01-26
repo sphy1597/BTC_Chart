@@ -9,6 +9,7 @@ import com.example.coco.dataModel.CurrentPriceResult
 import com.example.coco.dataStore.MyDataStore
 import com.example.coco.repository.NetWorkRepository
 import com.google.gson.Gson
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
@@ -45,7 +46,7 @@ class SelectViewModel : ViewModel() {
             }
 
         }
-
+        // 전체 코인 데이터를 받아와서 리스트에 뿌려줌
         _currentPriceResult.value = currentPriceResultList
 
     }
@@ -54,6 +55,21 @@ class SelectViewModel : ViewModel() {
         MyDataStore().setupFirstData()
     }
 
+
+    // DB에 데이터 저장
+    // Room과는 Dispatchers.io를 쓰는게 좋다고 공식 문서에 있음
+    fun saveSelectedCoinList(selectedCoinList: ArrayList<String>) = viewModelScope.launch (Dispatchers.IO){
+        // 1. 전체 코인 데이터 가져오기
+        for(coin in currentPriceResultList){
+            Timber.d(coin.toString())
+            
+            val selected = selectedCoinList.contains(coin.coinName)
+        }
+
+        // 2. 내가 선택한 코인인지 아닌지 구분하기
+
+        // 3. 저장
+    }
 
 
 
