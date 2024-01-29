@@ -23,7 +23,6 @@ class IntroViewModel : ViewModel() {
 
         _first.value = getData
 
-        Timber.d(_first.value.toString())
     }
 
 

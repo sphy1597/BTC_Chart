@@ -1,17 +1,20 @@
 package com.example.coco.DB
 
 import android.content.Context
-import androidx.room.Database
-import androidx.room.Room
-import androidx.room.RoomDatabase
+import androidx.room.*
 import com.example.coco.DB.dao.InterestCoinDAO
+import com.example.coco.DB.dao.SelectedCoinPriceDAO
+import com.example.coco.DB.entity.DataConverters
 import com.example.coco.DB.entity.InterestCoinEntity
+import com.example.coco.DB.entity.SelectedCoinPriceEntity
 
 
-@Database(entities = [InterestCoinEntity::class], version = 1)
+@Database(entities = [InterestCoinEntity::class, SelectedCoinPriceEntity::class], version = 2)
+@TypeConverters(DataConverters::class)
 abstract class CoinPriceDatabase : RoomDatabase() {
 
     abstract fun interestCoinDAO() : InterestCoinDAO
+    abstract fun selectedCoinDAO() : SelectedCoinPriceDAO
 
     companion object {
         @Volatile

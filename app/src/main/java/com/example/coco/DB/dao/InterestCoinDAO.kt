@@ -21,7 +21,7 @@ interface InterestCoinDAO {
     fun update(interestCoinEntity: InterestCoinEntity)
 
     // get selected List
-    @Query("Select * from interest_coin_table where selected = :selected")
+    @Query("SELECT * FROM interest_coin_table WHERE selected = :selected")
     fun getSelectedData(selected : Boolean = true) : List<InterestCoinEntity>
 
 
