@@ -10,6 +10,7 @@ class NetWorkRepository {
 
     suspend fun getCurrentCoinList() = client.getCurrentCoinList()
 
-    suspend fun getRecentCoinList(coin: String) = client.getRecentCoinPirce(coin)
+    suspend fun getInterestCoinPriceData(coin: String) = client.getRecentCoinPirce(coin)
+
 
 }

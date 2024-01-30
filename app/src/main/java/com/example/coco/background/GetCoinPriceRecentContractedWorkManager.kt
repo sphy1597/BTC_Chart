@@ -1,6 +1,7 @@
 package com.example.coco.background
 
 import android.content.Context
+import androidx.datastore.preferences.core.doublePreferencesKey
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.example.coco.DB.entity.SelectedCoinPriceEntity
@@ -22,30 +23,35 @@ class GetCoinPriceRecentContractedWorkManager(val context: Context, workerParame
 	private val dbRepo = DBRepository()
 	private val networkRepo = NetWorkRepository()
 
+
+
 	override suspend fun doWork(): Result {
 
 
 		Timber.d("doWork")
-
+		getAllInterestSelectedCoinData()
 
 		return Result.success()
 	}
 
 	// 1. 관심있어하는 코인 리스트를 가져오기
-	suspend fun getAllInterestSelectedCoinList(){
+	suspend fun getAllInterestSelectedCoinData(){
 		val selectedCoinList = dbRepo.getAllSelectedCoinData()
+
+		val timeStamp = Calendar.getInstance().time
 
 		for( coinData in selectedCoinList){
 			Timber.d(coinData.toString())
 
 			// 2. 관심있는 코인 각각의 가격 변동 정보를 가져와서 (New API)
-			val recentCoinPriceList  = networkRepo.getRecentCoinList(coinData.coin_name)
+			val recentCoinPriceList  = networkRepo.getInterestCoinPriceData(coinData.coin_name)
 
 			Timber.d(recentCoinPriceList.toString())
+
 			saveSelecCoinPrice(
 				coinData.coin_name,
 				recentCoinPriceList,
-
+				timeStamp
 			)
 		}
 
@@ -56,16 +62,20 @@ class GetCoinPriceRecentContractedWorkManager(val context: Context, workerParame
 		recentCoinPriceList: RecentPriceList,
 		timeStamp : Date
 	){
-		val selectedCoinPriceList = SelectedCoinPriceEntity(
+		val selectedCoinPriceEntity = SelectedCoinPriceEntity(
 			0,
 			coinName,
 			recentCoinPriceList.data[0].transaction_data,
 			recentCoinPriceList.data[0].type,
 			recentCoinPriceList.data[0].units_traded,
 			recentCoinPriceList.data[0].price,
-			recentCoinPriceList.data[0].total
+			recentCoinPriceList.data[0].total,
+			timeStamp
 
 		)
+
+
+		dbRepo.insertCoinPriceData(selectedCoinPriceEntity)
 
 	}
 
